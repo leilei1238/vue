@@ -1,0 +1,109 @@
+1.npm install vue
+2.一段json+html
+<div id="app">
+    {{name}}{{age}}
+</div>
+    1.生产一个挂载数据的实例
+     var vm=new Vue({
+        el:'#app',//选择器
+        data:{//2.挂载数据
+            name:'zfpx',
+            age:8
+        }
+     });
+3.双向数据绑定
+<div id="app">
+    <input type='text' v-model="msg">
+    {{msg}}
+    //绑定一次数据；1.0版本 {{*msg}}
+    //绑定一次数据；2.0版本 <div v-once>{{msg}}</div>
+    //解析字符串:1.0版本 {{{msg}}}
+    //解析字符串:2.0版本 <div v-html="msg"></div>
+</div>
+//双向数据绑定：只能用在表单元素上(input)
+//数据是挂在当前这个实例vm上的； console.log(vm.msg)=>hello;
+var vm=new Vue({
+    el:'#appp',
+    data:{
+        msg:'hello'
+    }
+})
+4.绑定对象
+<div id="app">
+    //v-for:要遍历谁，就将指令放在谁身上
+    <ul>
+        //1.0
+        <li v-for="a in arr" track-by="$index">
+            {{a}} {{$index}}
+            //$index:遍历数组的索引；
+        </li>
+        <li v-for="(key,a) in arr" track-by="$index">
+            {{a}} {{$index}}
+            //$index:遍历数组的索引；
+        </li>
+        //2.0 不需要写： track-by="$index" 但是$index没了
+        //没有声明过的变量，vue都去掉了；
+        <li v-for="a in arr">
+            {{a}} {{$index}}
+            //$index:遍历数组的索引；
+        </li>
+        //:key="key" 强制用索引来遍历
+        <li v-for="(a,key) in arr" :key="key">
+            {{a}} {{key}}
+            //$index:遍历数组的索引；
+        </li>
+    </ul>
+</div>
+var vm=new Vue({
+    el:'#app',
+    data:{//这里挂载的都是数据
+        arr:['苹果','香蕉','橘子','苹果']//放一样的会报错
+    }
+})
+5.数据为对象
+<div id="app">
+    //v-for:要遍历谁，就将指令放在谁身上
+    <ul>
+        //如果写一个参数in，这个参数永远是value
+        <li v-for="(o,key) in obj">
+            {{o}} {{$key}}
+        </li>
+    </ul>
+</div>
+var vm=new Vue({
+    el:'#app',
+    data:{//这里挂载的都是数据
+        obj:{name:'zf',age:8}
+        //字符串，数字，数组，对象，函数
+    }
+})
+6.数据为函数
+<div id="app">
+//v-on简写 @click="";
+    <button v-on:click="addFruit"></button>
+    //v-for:要遍历谁，就将指令放在谁身上
+    <ul>
+        //如果写一个参数in，这个参数永远是value
+        <li v-for="(o,key) in arr">
+            {{o}} {{$key}}
+        </li>
+    </ul>
+</div>
+var vm=new Vue({
+    el:'#app',
+    data:{//这里挂载的都是数据
+        arr:['苹果','香蕉','橘子','苹果'],
+        obj:{name:'zf',age:8}，
+        //字符串，数字，数组，对象，函数
+    },
+    methods:function(){
+        addFruit(){
+            //this->指向VM的实例；
+            this.arr.push('苹果')
+        }
+    }
+})
+7.事件：
+阻止冒泡@click.stop
+阻止默认事件@click.prevent
+8.扩展键盘事件
